@@ -12,25 +12,22 @@ def decimal2binary(value):
     return [int(bit) for bit in bin(value)[2:].zfill(8)]
 
 
-def adc(v):
-    signal = decimal2binary(v)
-    gp.output(dac, signal)
-    return signal
-
+def adc():
+    for i in range(256):
+        gp.output(dac, decimal2binary(i))
+        time.sleep(0.01)
+        compVal = gp.input(comp)
+        if compVal == 1:
+            return i
+    return 255
 
 gp.setup(troyka, gp.OUT, initial= gp.HIGH)
 gp.setup(comp, gp.IN)
 
 try:
     while True:
-        for i in range (256):
-            signal = adc(i)
-            time.sleep(0.001)
-            U = 3.3 * i / 256
-            compVal = gp.input(comp)
-            if compVal == 1:
-                print("цифровое значение:", i, ", напряжение: ", U)
-                break
+        dec_U = adc()
+        print(f"цифровое значеие {dec_U}, напряжение {3.3 * dec_U / 255}")
 
 finally:
     gp.output(dac, 0)
