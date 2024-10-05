@@ -36,7 +36,7 @@ gp.setup(comp, gp.IN)
 
 try:
     while True:
-        blinding_lights = (slow_adc() + 1) // 32
+        blinding_lights = (adc() + 1) // 32
         for i in range(blinding_lights):
             gp.output(leds[i], 1)
         for i in range(blinding_lights, 8):
