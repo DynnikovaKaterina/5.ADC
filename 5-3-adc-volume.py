@@ -1,7 +1,7 @@
 import RPi.GPIO as gp
 import time
 dac = [8, 11, 7, 1, 0, 5, 12, 6]
-leds = [2, 3, 4, 17, 27, 22, 10, 9]
+leds = [9, 10, 22, 27, 17, 4, 3, 2]
 gp.setmode(gp.BCM) 
 gp.setup(dac, gp.OUT) #настраиваем все пины из области dac на выход
 gp.setup(leds, gp.OUT) #настраиваем все пины из области leds на выход
@@ -36,7 +36,7 @@ gp.setup(comp, gp.IN)
 
 try:
     while True:
-        blinding_lights = (adc() + 1) // 32
+        blinding_lights = (slow_adc() + 1) // 32
         for i in range(blinding_lights):
             gp.output(leds[i], 1)
         for i in range(blinding_lights, 8):
